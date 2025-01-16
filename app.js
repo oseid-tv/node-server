@@ -8,14 +8,16 @@ const fs = require("fs");
 // });
 
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { "Content-Type": "text/plain" });
-
-  const readStream = fs.createReadStream(__dirname + "/read-me.txt", "utf-8");
-  // const writeStream = fs.createWriteStream(__dirname + "/write-me.txt");
-
-  readStream.pipe(res);
-
-  // res.end("hello world");
+  if (req.url === "/home" || req.url === "/") {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    fs.createReadStream(__dirname + "/index.html").pipe(res);
+  } else if (req.url === "/about") {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    fs.createReadStream(__dirname + "/about.html").pipe(res);
+  } else {
+    res.writeHead(404, { "Content-Type": "text/html" });
+    fs.createReadStream(__dirname + "/404.html").pipe(res);
+  }
 });
 
 console.log("Listening on port 3000");
