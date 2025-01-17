@@ -1,26 +1,20 @@
-const http = require("http");
-const fs = require("fs");
+const express = require('express');
 
-// readStream.on("data", (chunk) => {
-//   console.log("new data received");
-//   console.log(chunk);
-//   writeStream.write(chunk);
-// });
+const app = express();
 
-const server = http.createServer((req, res) => {
-  console.log("url", req.url);
+app.set('view engine', 'ejs');
 
-  if (req.url === "/home" || req.url === "/") {
-    res.writeHead(200, { "Content-Type": "text/html" });
-    fs.createReadStream(__dirname + "/index.html").pipe(res);
-  } else if (req.url === "/about-me") {
-    res.writeHead(200, { "Content-Type": "text/html" });
-    fs.createReadStream(__dirname + "/about.html").pipe(res);
-  } else {
-    res.writeHead(404, { "Content-Type": "text/html" });
-    fs.createReadStream(__dirname + "/404.html").pipe(res);
-  }
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
 });
 
-console.log("Listening on port 3000");
-server.listen(3000, "127.0.0.1");
+app.get('/about', (req, res) => {
+  res.sendFile(__dirname + '/about.html');
+});
+
+app.get('/profile/:name', (req, res) => {
+  const data = { age: 30, job: 'developer' };
+  res.render('profile', { person: req.params.name, data });
+});
+
+app.listen(3000);
