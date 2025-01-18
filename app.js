@@ -4,12 +4,15 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
+app.use('/assets', express.static('assets'));
+
 app.get('/', (req, res) => {
   res.render('index');
 });
 
 app.get('/about', (req, res) => {
-  res.render('about');
+  console.log(req.query);
+  res.render('about', { qs: req.query });
 });
 
 app.get('/profile/:name', (req, res) => {
