@@ -16,9 +16,9 @@
     <%- include('partials/nav.ejs') %>
     <h1>This is the About page.</h1>
 
-    <form action="">
-      <label for="who">Name</label>
-      <input type="text" name="who" id="who" value="<%= qs.name %>" />
+    <form action="/about" method="POST">
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" value="<%= qs.name %>" />
 
       <label for="job">Job</label>
       <input type="text" name="job" id="job" value="<%= qs.job %>" />
